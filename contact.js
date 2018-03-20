@@ -1,10 +1,28 @@
 const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database('addressBook.db')
 
-
 class Contacts {
   constructor() {
     this.id = 0
+  }
+
+  static showData(id){
+
+    if (id == null) {
+
+      db.all(`SELECT * FROM contacts`, function (err, rows) {
+        console.log(rows);
+      })
+
+    } else {
+
+      db.get(`SELECT * FROM contacts WHERE id = '${id}'`, function (err, rows) {
+        console.log(rows);
+      })
+
+    }
+
+
   }
 
   static addContact(input){
@@ -49,4 +67,6 @@ class Contacts {
 
 // Contacts.updateData({'id' : 1, 'columnName' : 'name', 'updateTo' :'elmisa'})
 
-Contacts.deleteData(4)
+// Contacts.deleteData(4)
+
+// Contacts.showData()
