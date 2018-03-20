@@ -7,20 +7,20 @@ class View{
 
     static showContact(datacontact){
         console.log(`This Data Contact List :`)
-        
+        console.log(datacontact)
         let tableContact = new Table({
             head: ['Contact ID', 'Full Name', 'Email', 'Phone Number'],
-            colWidths: [14, 25, 25, 15] 
+            colWidths: [24, 25, 25, 15] 
         })
 
-        for(let i=0; i<datacontact.length; i++){
-            tableContact.push([datacontact[i].contact_id,
-                datacontact[i].name,
-                datacontact[i].email,
-                datacontact[i].phone
-            ])
-        }
-        console.log(tableContact.toString())
+        // for(let i=0; i<datacontact.length; i++){
+        //     tableContact.push([datacontact[i].group_name,
+        //         datacontact[i].name,
+        //         datacontact[i].email,
+        //         datacontact[i].phone
+        //     ])
+        // }
+        // console.log(tableContact.toString())
     }
 
     static showGroup(datagroup){

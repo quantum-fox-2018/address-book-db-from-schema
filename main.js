@@ -9,4 +9,4 @@ let value2 = value[1]
 let value3 = value[2]
 let value4 = value[3]
 
-Controller.checkSyntax(syntax, table, value1, value2, value3)
+Controller.checkSyntax(syntax, table, value1, value2, value3, value4)
