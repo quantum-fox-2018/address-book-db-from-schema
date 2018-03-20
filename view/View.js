@@ -20,13 +20,13 @@ class View {
   static readData(type,data){
     if(type=='contacts' || type=='contact'){
       let contactsTable = new Table({
-        head: ['ID','Name','Address','Phone Number','Email'],
-        colWidths: [5,15,10,15,25]
+        head: ['ID','Name','Address','Phone Number','Email','Group Name'],
+        colWidths: [5,15,7,10,15,15]
       })
       for(let i=0; i<data.length; i++){
         let contact = data[i]
         contactsTable.push(
-          [contact.id,contact.name,contact.address,contact.phoneNumber,contact.email]
+          [contact.id,contact.contactName,contact.address,contact.phoneNumber,contact.email,contact.groupName]
         )
       }
       console.log(contactsTable.toString())
@@ -45,8 +45,13 @@ class View {
     }
   }
 
-  static insertData(input){
-    console.log(`new Data of ${input} has saved!`)
+  static insertData(status,input){
+    if(status==false){
+      let message = `Your phone number or email is not valid! phone number should contain number not greater than 12 digit, and your email format should like email in general`
+      console.log(message)
+    } else {
+      console.log(`new Data of ${input} has saved!`)
+    }
   }
 
   static updateData(input,position){
