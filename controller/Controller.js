@@ -28,6 +28,10 @@ class Controller {
       Model.deleteData(this.content,(input,position)=>{
         View.deleteData(input,position)
       })
+    } else if(this.command=='assign'){
+      Model.assign(this.content,(contactName,groupName)=>{
+        View.assign(contactName,groupName)
+      })
     }
   }
 }

@@ -13,6 +13,8 @@ class View {
     console.log(`type 'node app.js update <content> <content_id>
       <content_column_name> <content_column_data>'
       to replace/update data of content with new data`)
+    console.log(`type 'node app.js assign <contactName> to <groupName>'
+      to assign a contact to group`)
   }
 
   static readData(type,data){
@@ -40,18 +42,6 @@ class View {
         )
       }
       console.log(groupsTable.toString())
-    } else if(type=='groupcontact' || type=='groupcontacts'){
-      let groupContactsTable = new Table({
-        head: ['ID','Contact Name','Group Name'],
-        colWidths: [5,20,25]
-      })
-      for(let i=0; i<data.length; i++){
-        let groupContact = data[i]
-        groupContactsTable.push(
-          [groupContact.id,groupContact.contactName,groupContact.groupName]
-        )
-      }
-      console.log(groupContactsTable.toString())
     }
   }
 
@@ -65,6 +55,10 @@ class View {
 
   static deleteData(input,position){
     console.log(`Data of ${input} at ID: ${position} has deleted!`)
+  }
+
+  static assign(contactName,groupName){
+    console.log(`${contactName} has assigned to ${groupName}`)
   }
 }
 

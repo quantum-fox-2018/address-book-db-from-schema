@@ -17,16 +17,6 @@ class Model {
         if (err) throw err
         callback(input,groupsData)
       })
-    } else if(input=='groupcontact' || input=='groupcontacts'){
-      db.all(`SELECT GroupContacts.id, Contacts.name AS contactName, Groups.name AS groupName
-        FROM GroupContacts
-        JOIN Groups
-          ON GroupContacts.groupId = Groups.id
-        JOIN Contacts
-          ON GroupContacts.contactId = Contacts.id`,function(err,groupsData){
-        if (err) throw err
-        callback(input,groupsData)
-      })
     }
   }
 
@@ -37,9 +27,6 @@ class Model {
     } else if(input[0]=='groups' || input[0]=='group'){
       let newGroup = new Group(input[1])
       newGroup.save()
-    } else if(input[0]=='groupcontacts' || input[0]=='groupcontact'){
-      let newContactGroup = new ContactGroup(input[1],input[2])
-      newContactGroup.save()
     }
     callback(input[0])
   }
@@ -64,6 +51,11 @@ class Model {
       GroupContact.delete(input)
     }
     callback(input[0],input[1])
+  }
+
+  static assign(input,callback){
+    GroupContact.assign(input)
+    callback(input[0],input[2])
   }
 }
 

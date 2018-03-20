@@ -19,7 +19,10 @@ class Group {
   }
 
   static delete(input){
-    db.run(`DELETE FROM GroupContacts WHERE id = ${input[1]}`)
+    db.serialize(function(){
+      db.run(`DELETE FROM GroupContacts WHERE groupId = ${input[1]}`)
+      db.run(`DELETE FROM Groups WHERE id = ${input[1]}`)
+    })
   }
 }
 

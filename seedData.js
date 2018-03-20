@@ -4,7 +4,6 @@ const fs = require('fs')
 
 const contacts = fs.readFileSync('contacts.csv','utf8').split('\n')
 const groups = fs.readFileSync('groups.csv','utf8').split('\n')
-const groupContacts = fs.readFileSync('groupcontacts.csv','utf8').split('\n')
 
 db.serialize(function(){
   let seedContacts = db.prepare(`INSERT INTO Contacts (name,address,phoneNumber,email) VALUES
@@ -25,16 +24,6 @@ db.serialize(function(){
     seedGroups.run(groups[i])
   }
   seedGroups.finalize()
-
-  let seedGroupContacts = db.prepare(`INSERT INTO GroupContacts (contactId,groupId) VALUES
-    (?,?)`)
-  for(let i=1; i<groupContacts.length-1; i++){
-    let groupContact = groupContacts[i].split(',')
-    let contactId = groupContact[0]
-    let groupId = groupContact[1]
-    seedGroupContacts.run(contactId,groupId)
-  }
-  seedGroupContacts.finalize()
 })
 
 db.close()
