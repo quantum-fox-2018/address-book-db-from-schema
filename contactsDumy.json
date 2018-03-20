@@ -1,0 +1,16 @@
+[
+    {"name":"Jono",
+    "address":"Malang",
+    "phone":"0859855412"
+    },
+     
+    {"name":"Dono",
+    "address":"Surabaya",
+    "phone":"0859852431"
+    },
+
+    {"name":"Paijo",
+    "address":"Madiun",
+    "phone":"0878192042"
+    }
+]
