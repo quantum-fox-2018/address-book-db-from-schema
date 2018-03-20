@@ -36,8 +36,6 @@ class Model {
       Contact.update(input)
     } else if(input[0]=='groups' || input[0]=='group'){
       Group.update(input)
-    } else if(input[0]=='groupcontacts' || input[0]=='groupcontact'){
-      GroupContact.update(input)
     }
     callback(input[0],input[1])
   }

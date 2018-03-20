@@ -7,10 +7,6 @@ class GroupContact {
     this.groupId = groupId
   }
 
-  static update(input){
-    db.run(`UPDATE GroupContacts SET ${input[2]} = ? WHERE id = ?`,input[3],input[1])
-  }
-
   static delete(input){
     db.run(`DELETE FROM GroupContacts WHERE id = ${input[1]}`)
   }

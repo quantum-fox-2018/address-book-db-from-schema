@@ -26,7 +26,10 @@ class Contact {
   }
 
   static delete(input){
-    db.run(`DELETE FROM GroupContacts WHERE id = ${input[1]}`)
+    db.serialize(function(){
+      db.run(`DELETE FROM GroupContacts WHERE contactId = ${input[1]}`)
+      db.run(`DELETE FROM Contacts WHERE id = ${input[1]}`)
+    })
   }
 }
 
