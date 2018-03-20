@@ -14,8 +14,8 @@ class Contact{
   }
 
   static updateContact(set, setData, where, whereData, cb) {
-    let query = 'UPDATE contacts SET `${set}` = `${setData}` WHERE `${where}` = `${whereData}`'
-    db.run(query, set, setData, where, whereData, function(err) {
+    let query = `UPDATE contacts SET ${set} = ${setData} WHERE ${where} = ${whereData}`
+    db.run(query, function(err) {
       if(err) {
         cb(err);
       } else {
