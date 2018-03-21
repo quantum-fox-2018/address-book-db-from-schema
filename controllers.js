@@ -12,7 +12,8 @@ class Controller{
         let helplist = ['node main.js show <table>',
                 'node main.js insert <table> <value>',
                 'node main.js update <table> <id> <value>',
-                'node main.js delete <table> <id>'
+                'node main.js delete <table> <id>',
+                'node main.js assign <contact_name> <group_name>'
             ]
         if(syntax == 'help'){
             
@@ -72,7 +73,11 @@ class Controller{
             }
         }
         else if(syntax == 'assign'){
-            ContactGroup.assignGroup(table, value1)
+            ContactGroup.assignGroup(table, value1, () => {
+                setTimeout(() => {
+                    Contact.showContact(View.showContact)
+                }, 3000);
+            })
         }
         else{
             console.log('Your Syntax Wrong...Try Again...')

@@ -6,7 +6,7 @@ class ContactGroup{
         
     }
 
-    static assignGroup(contact_name, group_name){
+    static assignGroup(contact_name, group_name, showData){
         db.serialize((err) => {
             if(err){
                 console.log(err.message)
@@ -30,7 +30,7 @@ class ContactGroup{
                         
                 })
             })
-            
+            showData()
             console.log(`Assign Contact ID : "${contact_name}" to Group "${group_name}" , has been success`)
         })
 
