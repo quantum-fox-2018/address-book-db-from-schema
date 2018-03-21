@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Naruto",
+    "company": "Konoha",
+    "phone": "111111",
+    "email": "naruto@konoha.com"
+  },{
+    "id": 2,
+    "name": "Sasuke",
+    "company": "Konoha",
+    "phone": "222222",
+    "email": "sasuke@konoha.com"
+  },{
+    "id": 3,
+    "name": "Sakura",
+    "company": "Konoha",
+    "phone": "333333",
+    "email": "sakura@konoha.com"
+  },{
+    "id": 4,
+    "name": "Kakashi",
+    "company": "Konoha",
+    "phone": "444444",
+    "email": "kakashi@konoha.com"
+  }
+]
