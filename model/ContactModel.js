@@ -2,18 +2,33 @@ const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database('address_book.db')
 
 class ContactModel{
-  static addContact(contact_name, phoneNumber, cb){
-    db.serialize(function(){
-      let queryAdd = `INSERT INTO CONTACTS (contact_name, phoneNumber)
-                        VALUES (?,?);`
-      db.run(queryAdd,[contact_name, phoneNumber],(err) => {
-        if(err){
-          console.log('cek di query Insert Contacts',err)
-        }
+  static cekTambahKontakModel(contact_name, phoneNumber, cb, cb2){
+    if(contact_name === undefined || phoneNumber === undefined){
+      let text = `name atau phone number tidak boleh kosong...!`
+      cb(text)
+    }
+    else if(phoneNumber.length > 11){
+      let text = `maximum karakter phone number adalah 11 ...!`
+      cb(text)
+    }
+    else {
+      db.serialize(function(){
+        let queryAdd = `INSERT INTO CONTACTS (contact_name, phoneNumber)
+        VALUES (?,?);`
+        db.run(queryAdd,[contact_name, phoneNumber],(err) => {
+          if(err){
+            console.log('cek di query Insert Contacts',err)
+          }
+          else {
+            cb2(contact_name, phoneNumber)
+          }
+        })
       })
-    })
-    db.close()
-    cb(contact_name, phoneNumber)
+      db.close()
+    }
+  }
+
+  static addContact(contact_name, phoneNumber, cb){
   }
 
   static deleteContact(contact_name, cb){

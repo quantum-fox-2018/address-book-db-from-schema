@@ -2,14 +2,19 @@ const ContactModel = require('../model/ContactModel');
 const ContactView = require('../view/ContactView');
 
 class ContactController{
-  static tambahKontak(contact_name, phoneNumber){
-    ContactModel.addContact(contact_name, phoneNumber, ContactController.tampilkanNotifTambahKontak)
+  static cekTambahKontak(contact_name, phoneNumber){
+    ContactModel.cekTambahKontakModel(contact_name, phoneNumber, ContactController.tampilkanNotifTambahKontakSalah, ContactController.tampilkanNotifTambahKontak)
+  }
+
+  static tampilkanNotifTambahKontakSalah(text){
+    ContactView.displayTambahKontakSalah(text)
   }
 
   static tampilkanNotifTambahKontak(contact_name, phoneNumber){
     ContactView.displayTambahKontak(contact_name, phoneNumber)
   }
 
+//=========================================== HAPUS KONTAK
   static hapusKontak(contact_name){
     ContactModel.deleteContact(contact_name,ContactController.tampilkanNotifHapusKontak)
   }

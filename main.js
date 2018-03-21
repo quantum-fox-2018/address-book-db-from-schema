@@ -11,19 +11,16 @@ switch (argv[2]) {
   case 'uploadData' :
     Setup.uploadTable();break;
   case 'addContact':
-    if(argv[3] === undefined || argv[4] === undefined){
-      console.log(`name atau phone number tidak boleh kosong...!`);
-    }
-    else {
-      ContactController.tambahKontak(argv[3], argv[4]);
-    }
-    break;
+    ContactController.cekTambahKontak(argv[3],argv[4]);break;
   case 'deleteContact':
     ContactController.hapusKontak(argv[3]);break;
   case 'showContact':
     ContactController.tampilkanKontak();break;
   case 'updateContact':
-    ContactController.rubahKontak(argv[4],argv[5],argv[3]);break
+    ContactController.rubahKontak(argv[4],argv[5],argv[3]);break;
+  case 'addGroup':
+
+    break;
   default:
     HelpController.retriveHelp();
 }
