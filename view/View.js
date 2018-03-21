@@ -1,4 +1,5 @@
 const Table = require('cli-table')
+const formatted = require('../forContactView.js')
 
 class View {
   static ifUndefined(){
@@ -19,14 +20,15 @@ class View {
 
   static readData(type,data){
     if(type=='contacts' || type=='contact'){
+      let newFormat = formatted(data)
       let contactsTable = new Table({
         head: ['ID','Name','Address','Phone Number','Email','Group Name'],
-        colWidths: [5,15,7,10,15,15]
+        colWidths: [5,15,7,10,15,20]
       })
-      for(let i=0; i<data.length; i++){
-        let contact = data[i]
+      for(let i=0; i<newFormat.length; i++){
+        let contact = newFormat[i]
         contactsTable.push(
-          [contact.id,contact.contactName,contact.address,contact.phoneNumber,contact.email,contact.groupName]
+          [contact[0],contact[1],contact[2],contact[3],contact[4],contact[5]]
         )
       }
       console.log(contactsTable.toString())
