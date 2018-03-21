@@ -1,5 +1,4 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('./address_book.db')
+const db = require('./koneksi.js')
 
 class ContactGroup{
   constructor(contactId,groupId){

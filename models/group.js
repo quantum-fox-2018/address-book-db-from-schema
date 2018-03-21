@@ -1,5 +1,4 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('./address_book.db')
+const db = require('./koneksi.js')
 
 class Group{
   constructor(groupName){
@@ -52,24 +51,54 @@ class Group{
   }
 
   show(groupId,callback){
-    db.all(`select g.groupName,c.contactName from groups as g
-     left join contacts_groups as cg on g.groupId = cg.groupId
-     left join contacts as c on c.contactId = cg.contactId
-     where g.groupId=$groupId`,
-    {
-      $groupId : groupId
-    }
-    ,(err,data)=>{
-      if(err) callback(err);
-      else callback(data);
+    var arrGroup=[]
+    db.serialize(()=>{
+      db.all(`select * from groups where groupId=$groupId`,{
+        $groupId : groupId
+      },(err,data)=>{
+        if(err) callback(err)
+        else{
+          db.all(`select * from contacts_groups as cg join contacts as c
+          on cg.contactId=c.contactId join groups as g
+          on cg.groupId=g.groupId`,(err,dataGroup)=>{
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < dataGroup.length; j++) {
+                if(data[i].groupId===dataGroup[j].groupId){
+                  arrGroup.push(dataGroup[j].contactName)
+                  data[i].members=arrGroup
+                }
+              }
+              callback(data[i])
+              arrGroup=[]
+            }
+          })
+        }
+      })
     })
   }
 
   showAll(callback){
-    db.all(`select g.groupName from groups as g
-      `,(err,data)=>{
-      if(err) callback(err);
-      else callback(data);
+    var arrGroup=[]
+    db.serialize(()=>{
+      db.all(`select * from groups`,(err,data)=>{
+        if(err) callback(err)
+        else{
+          db.all(`select * from contacts_groups as cg join contacts as c
+          on cg.contactId=c.contactId join groups as g
+          on cg.groupId=g.groupId`,(err,dataGroup)=>{
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < dataGroup.length; j++) {
+                if(data[i].groupId===dataGroup[j].groupId){
+                  arrGroup.push(dataGroup[j].contactName)
+                  data[i].members=arrGroup
+                }
+              }
+              callback(data[i])
+              arrGroup=[]
+            }
+          })
+        }
+      })
     })
   }
 }

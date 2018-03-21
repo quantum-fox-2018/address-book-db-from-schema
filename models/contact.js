@@ -1,5 +1,4 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('./address_book.db')
+const db = require('./koneksi.js')
 
 class Contact{
   constructor(contactName,phoneNumber){
@@ -59,25 +58,58 @@ class Contact{
   }
 
   show(contactId,callback){
-    db.all(`select c.contactName,c.phoneNumber,g.groupName from contacts as c
-    left join contacts_groups as cg on c.contactId = cg.contactId
-    left join groups as g on g.groupId = cg.groupId
-    where c.contactId=$contactId`,
-    {
-      $contactId : contactId
-    }
-    ,(err,data)=>{
-      if(err) callback(err);
-      else callback(data);
+    var arrContact=[]
+    db.serialize(()=>{
+      db.all(`select * from contacts where contactId=$contactId`,{
+        $contactId :contactId
+      },(err,data)=>{
+        if(err) callback(err)
+        else{
+          db.all(`select * from contacts_groups as cg join contacts as c
+          on cg.contactId=c.contactId join groups as g
+          on cg.groupId=g.groupId`,(err,dataGroup)=>{
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < dataGroup.length; j++) {
+                if(data[i].contactId===dataGroup[j].contactId){
+                  arrContact.push(dataGroup[j].groupName)
+                  data[i].groupName=arrContact
+                }
+              }
+              callback(data[i])
+              arrContact=[]
+            }
+          })
+        }
+
+      })
+
     })
   }
 
   showAll(callback){
-    db.all(`select c.contactName,c.phoneNumber,g.groupName from contacts as c
-    left join contacts_groups as cg on c.contactId = cg.contactId
-    left join groups as g on g.groupId = cg.groupId`,(err,data)=>{
-      if(err) callback(err);
-      else callback(data);
+    var arrContact=[]
+    db.serialize(()=>{
+      db.all(`select * from contacts`,(err,data)=>{
+        if(err) callback(err)
+        else{
+          db.all(`select * from contacts_groups as cg join contacts as c
+          on cg.contactId=c.contactId join groups as g
+          on cg.groupId=g.groupId`,(err,dataGroup)=>{
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < dataGroup.length; j++) {
+                if(data[i].contactId===dataGroup[j].contactId){
+                  arrContact.push(dataGroup[j].groupName)
+                  data[i].groupName=arrContact
+                }
+              }
+              callback(data[i])
+              arrContact=[]
+            }
+          })
+        }
+
+      })
+
     })
   }
 

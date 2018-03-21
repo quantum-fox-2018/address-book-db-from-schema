@@ -1,5 +1,3 @@
-const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database('./address_book.db')
 const Controller = require('./controllers/controller.js')
 
 const argv = process.argv
@@ -34,6 +32,3 @@ function command(inputCommand,inputTable,inputData){
 
 
 command(argv[2],argv[3],argv.slice(4))
-
-
-db.close();
