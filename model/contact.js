@@ -14,12 +14,12 @@ class Contact{
   }
 
   static updateContact(set, setData, where, whereData, cb) {
-    let query = `UPDATE contacts SET ${set} = ${setData} WHERE ${where} = ${whereData}`
-    db.run(query, function(err) {
+    let query = `UPDATE contacts SET ${set} = ? WHERE ${where} = ?`
+    db.run(query, setData, whereData, function(err) {
       if(err) {
-        cb(err);
+        cb(err)
       } else {
-        cb('update success')
+        cb("sukses");
       }
     })
   }
@@ -35,8 +35,8 @@ class Contact{
     })
   }
 
-  static deleteContact(value, cb) {
-    let query = 'DELETE FROM contacts WHERE id = ?'
+  static deleteContact(where, value, cb) {
+    let query = `DELETE FROM contacts WHERE ${where} = ?`
     db.run(query, value, function(err) {
       if(err) {
         cb(err)
