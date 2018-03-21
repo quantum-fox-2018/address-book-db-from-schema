@@ -18,6 +18,14 @@ class ContactController{
     ContactView.displayHapusKontak(contact_name)
   }
 
+  static tampilkanKontak(){
+    ContactModel.selectContact(ContactController.tampilkanDataKontak)
+  }
+
+  static tampilkanDataKontak(dataContact){
+    ContactView.displayKontak(dataContact)
+  }
+
 }
 
 module.exports = ContactController

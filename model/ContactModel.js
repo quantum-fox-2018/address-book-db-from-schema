@@ -29,6 +29,22 @@ class ContactModel{
     cb(contact_name)
   }
 
+  static selectContact(cb){
+    db.serialize(function(){
+      let querySelect = `SELECT * FROM CONTACTS`
+      db.all(querySelect,(err, dataContact) => {
+        if(err){
+          console.log('cek di query Select Contact', err)
+        }
+        else {
+          cb(dataContact)
+        }
+      })
+    })
+    db.close()
+  }
+
+
   static updateContact(){
 
   }
