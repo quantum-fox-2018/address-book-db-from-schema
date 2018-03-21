@@ -2,9 +2,14 @@ function beautifyContact(input){
   let arrayOfContact = []
   let count = 0
   for(let i=0; i<input.length; i++){
-    let contact = [input[i].id,input[i].contactName,input[i].address,input[i].phoneNumber,input[i].email]
+    let contact = {
+      id:input[i].id,
+      contactName:input[i].contactName,
+      address:input[i].address,
+      phoneNumber:input[i].phoneNumber,
+      email:input[i].email}
     for(let j=0; j<arrayOfContact.length; j++){
-      if(contact[0]==arrayOfContact[j][0]){
+      if(contact.id==arrayOfContact[j].id){
         count++
       }
     }
@@ -13,13 +18,13 @@ function beautifyContact(input){
     }
   }
   for(let i=0; i<arrayOfContact.length; i++){
-    let groups = []
+    let arrayOfGroups = []
     for(let j=0; j<input.length; j++){
-      if(arrayOfContact[i][1]==input[j].contactName){
-        groups.push(input[j].groupName)
+      if(arrayOfContact[i].contactName==input[j].contactName){
+        arrayOfGroups.push(input[j].groupName)
       }
     }
-    arrayOfContact[i].push(groups)
+    arrayOfContact[i].groups = arrayOfGroups
   }
   return arrayOfContact
 }

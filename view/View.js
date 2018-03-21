@@ -28,7 +28,7 @@ class View {
       for(let i=0; i<newFormat.length; i++){
         let contact = newFormat[i]
         contactsTable.push(
-          [contact[0],contact[1],contact[2],contact[3],contact[4],contact[5]]
+          [contact.id,contact.contactName,contact.address,contact.phoneNumber,contact.email,contact.groups]
         )
       }
       console.log(contactsTable.toString())
