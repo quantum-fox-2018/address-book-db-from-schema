@@ -14,12 +14,16 @@ class GroupContact {
   static assign(input){
     db.get(`SELECT id AS contactId FROM Contacts WHERE name = '${input[0]}'`,function(err,contactData){
       db.get(`SELECT id AS groupId FROM Groups WHERE name = '${input[2]}'`,function(err,groupData){
-        db.run(`INSERT INTO GroupContacts (contactId,groupId) VALUES ($contactId,$groupId)`,{
-            $contactId:contactData.contactId,
-            $groupId:groupData.groupId
-          },function(err){
-            if (err) console.log(err.message)
-          })
+        db.get(`SELECT id FROM GroupContacts WHERE groupId = ${groupData.groupId} AND contactId = ${contactData.contactId}`,function(err,data){
+          if(data==undefined){
+            db.run(`INSERT INTO GroupContacts (contactId,groupId) VALUES ($contactId,$groupId)`,{
+                $contactId:contactData.contactId,
+                $groupId:groupData.groupId
+              },function(err){
+                if (err) console.log(err.message)
+              })
+          }
+        })
       })
     })
   }

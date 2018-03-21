@@ -26,9 +26,9 @@ class Model {
         Contacts.email,
         Groups.name AS groupName
         FROM Contacts
-        JOIN GroupContacts
+        LEFT JOIN GroupContacts
           ON Contacts.id = GroupContacts.contactId
-        JOIN Groups
+        LEFT JOIN Groups
           ON GroupContacts.groupId = Groups.id`,function(err,contactsData){
         if (err) throw err
         callback(input,contactsData)

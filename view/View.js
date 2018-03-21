@@ -22,7 +22,7 @@ class View {
     if(type=='contacts' || type=='contact'){
       let newFormat = formatted(data)
       let contactsTable = new Table({
-        head: ['ID','Name','Address','Phone Number','Email','Group Name'],
+        head: ['ID','Name','Address','Phone Number','Email','Groups'],
         colWidths: [5,15,7,10,15,20]
       })
       for(let i=0; i<newFormat.length; i++){

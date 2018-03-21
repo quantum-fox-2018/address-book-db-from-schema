@@ -1,7 +1,7 @@
 function beautifyContact(input){
   let arrayOfContact = []
-  let count = 0
   for(let i=0; i<input.length; i++){
+    let count = 0
     let contact = {
       id:input[i].id,
       contactName:input[i].contactName,
