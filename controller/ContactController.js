@@ -2,6 +2,7 @@ const ContactModel = require('../model/ContactModel');
 const ContactView = require('../view/ContactView');
 
 class ContactController{
+//=========================================== TAMBAH KONTAK
   static cekTambahKontak(contact_name, phoneNumber){
     ContactModel.cekTambahKontakModel(contact_name, phoneNumber, ContactController.tampilkanNotifTambahKontakSalah, ContactController.tampilkanNotifTambahKontak)
   }
@@ -23,6 +24,7 @@ class ContactController{
     ContactView.displayHapusKontak(contact_name)
   }
 
+//=========================================== TAMPILKAN KONTAK
   static tampilkanKontak(){
     ContactModel.selectContact(ContactController.tampilkanDataKontak)
   }
@@ -31,6 +33,7 @@ class ContactController{
     ContactView.displayKontak(dataContact)
   }
 
+//=========================================== RUBAH KONTAK
   static rubahKontak(contact_name,phoneNumber,id){
     ContactModel.updateContact(contact_name,phoneNumber,id,ContactController.tampilkanNotifUpdateKontak)
   }
@@ -38,6 +41,10 @@ class ContactController{
   static tampilkanNotifUpdateKontak(id){
     ContactView.displayRubahKontak(id)
   }
+
+//=========================================== TAMBAH GROUP
+
+
 
 }
 
