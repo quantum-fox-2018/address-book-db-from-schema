@@ -2,38 +2,44 @@ const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database('addressBook.db')
 
 
-  db.run(`CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, phone NUMBER, email VARCHAR, address VARCHAR);`,function (err) {
-      if (err) {
+  db.run(`CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, phone VARCHAR, email VARCHAR, address VARCHAR);`,function (err) {
 
-        return console.log(`table is already exists`);
+    if (err) {
 
-      } else {
+      return console.log(`table is already exists`);
 
-        console.log(`done add contacts table !`);
+    } else {
 
-      }
+      console.log(`done add contacts table !`);
+
+    }
+
   })
 
   db.run(`CREATE TABLE IF NOT EXISTS groups(id INTEGER PRIMARY KEY AUTOINCREMENT, groupName VARCHAR);`,function (err) {
-      if (err) {
 
-        return console.log(`table is already exists`);
+    if (err) {
 
-      } else {
+      return console.log(`table is already exists`);
 
-        console.log(`done add groups table !`);
+    } else {
 
-      }
+      console.log(`done add groups table !`);
+
+    }
+
   })
 
   db.run(`CREATE TABLE IF NOT EXISTS contactGroups(id INTEGER PRIMARY KEY AUTOINCREMENT, contactId INTEGER, groupId INTEGER);`,function (err) {
-      if (err) {
 
-        return console.log(`table is already exists`);
+    if (err) {
 
-      } else {
+      return console.log(`table is already exists`);
 
-        console.log(`done add contactGroups table !`);
+    } else {
 
-      }
+      console.log(`done add contactGroups table !`);
+
+    }
+
   })
