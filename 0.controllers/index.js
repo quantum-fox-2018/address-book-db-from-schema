@@ -19,7 +19,6 @@ class Controller {
             case 'show': this.show(input_data); break;
             default: this.help();
         }
-
     }
 
     static help() {

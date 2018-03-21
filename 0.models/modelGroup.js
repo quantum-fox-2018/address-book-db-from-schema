@@ -3,73 +3,71 @@ const fs = require('fs');
 
 class Group {
 
+    static readfile (fileName) {
+        return new Promise ((resolve,reject) => {
+            fs.readFile(fileName,'utf8',(err,data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            })
+        })
+    }
+
     static insertall() {
-        const db = new sqlite3.Database('./group1.db', (err) => {
-            if (err) {
-              return console.error('Connect',err.message);
-            }
-            console.log('Connected to the in-memory SQlite database.');
-        });
+        const db = new sqlite3.Database('./groupX.db');
         
         db.serialize(function() {
             let pathFileName = '../address-book-db-from-schema/0.seed-data/groups.csv';
             
-            let raw_data = fs.readFileSync(pathFileName, 'utf8').trim().split('\r\n');
-            let table_data = [];
-            for (let i = 1; i < raw_data.length; i++) {
-                table_data.push(raw_data[i].split(','));
-            }
-    
-            let maxColumn = [];
-            for (let i = 0; i < table_data[0].length; i++) {
-                maxColumn.push('?');
-            }
-            let joinMaxColumn = maxColumn.join(',');
+            let read_data = Group.readfile(pathFileName)
 
-            var stmt = db.prepare(`INSERT INTO Groups VALUES (null,${joinMaxColumn})`);
-            
-            for (var i = 0; i < table_data.length; i++) {
-                stmt.run(table_data[i]);
-            }
-            stmt.finalize();
-           
-            db.close((err) => {
-            if (err) {
-            return console.error('Close',err.message);
-            }
-            console.log('Close the database connection.');
-            });
+            read_data.then(data => {
+                let raw_data = data.trim().split('\r\n');
+
+                let table_data = [];
+                for (let i = 1; i < raw_data.length; i++) {
+                    table_data.push(raw_data[i].split(','));
+                }
+        
+                let maxColumn = [];
+                for (let i = 0; i < table_data[0].length; i++) {
+                    maxColumn.push('?');
+                }
+                let joinMaxColumn = maxColumn.join(',');
+    
+                var stmt = db.prepare(`INSERT INTO Groups VALUES (null,${joinMaxColumn})`);
+                
+                for (var i = 0; i < table_data.length; i++) {
+                    stmt.run(table_data[i]);
+                }
+                stmt.finalize();
+               
+                db.close();
+            })
+            .catch(err => {
+                console.log(err);
+            })
         })
     }
 
     static update(data) {
-
-        const db = new sqlite3.Database('./group1.db', (err) => {
-            if (err) {
-              return console.error('Connect',err.message);
-            }
-            console.log('Connected to the in-memory SQlite database.');
-        });
+        const db = new sqlite3.Database('./groupX.db');
         
         db.serialize(function() {
-            
             let columnToUpdate = data[0];
             let updateData = data[1];
             let id = data[2];
 
             db.run(`UPDATE Groups SET ${columnToUpdate} = '${updateData}' WHERE Groups.groupId = ${id}`)
            
-            db.close((err) => {
-            if (err) {
-            return console.error('Close',err.message);
-            }
-            console.log('Close the database connection.');
-            });
+            db.close();
         })
     }
 
     static delete(id) {
-        const db = new sqlite3.Database('./group1.db');
+        const db = new sqlite3.Database('./groupX.db');
         
         db.serialize(function() {     
             db.run(`DELETE FROM ContactGroups WHERE ContactGroups.groupId = ${id}`)
@@ -80,7 +78,7 @@ class Group {
 
 
     static show(cb) {
-        const db = new sqlite3.Database('./group1.db');
+        const db = new sqlite3.Database('./groupX.db');
         
         db.serialize(function() {     
             let query = `SELECT Groups.groupId, Groups.name AS GroupName, Contacts.first_name || " "|| Contacts.last_name AS FullName
@@ -89,7 +87,35 @@ class Group {
             LEFT JOIN Contacts ON ContactGroups.contactId = Contacts.contactId;`;
             
             db.all(query, function(err, arrObjContacs) {
-                cb(arrObjContacs)
+
+                let result = []
+                for (let i = 0; i < arrObjContacs.length-1; i++) {
+                    if (arrObjContacs[i].groupId != arrObjContacs[i+1].groupId && (i+1) != arrObjContacs.length-1) {
+                        let inner = {
+                            groupId: arrObjContacs[i].groupId,
+                            GroupName: arrObjContacs[i].GroupName,
+                            groupMember: []
+                        }
+                        result.push(inner);
+                    } else if (arrObjContacs[i].groupId != arrObjContacs[i+1].groupId || (i+1) == arrObjContacs.length-1) {
+                    let inner = {
+                            groupId: arrObjContacs[i+1].groupId,
+                            GroupName: arrObjContacs[i+1].GroupName,
+                            groupMember: []
+                        }
+                        result.push(inner)
+                    } 
+                }
+
+                for (let i = 0; i < result.length; i++) {
+                    for (let j = 0; j < arrObjContacs.length; j++) {
+                        if (result[i].groupId == arrObjContacs[j].groupId && arrObjContacs[j].GroupName != null) {
+                            result[i].groupMember.push(arrObjContacs[j].FullName)
+                        }
+                    }
+                }
+                
+                cb(result)
             });
 
             db.close();
@@ -98,7 +124,7 @@ class Group {
 
 
     static insertone(data) {
-        const db = new sqlite3.Database('./group1.db');
+        const db = new sqlite3.Database('./groupX.db');
         db.serialize(function() {     
             let name = data[0];
       

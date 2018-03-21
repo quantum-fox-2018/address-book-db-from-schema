@@ -1,12 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-
-const db = new sqlite3.Database('./group1.db', (err) => {
-    if (err) {
-      return console.error('Connect',err.message);
-    }
-    console.log('Connected to the in-memory SQlite database.');
-});
-
+const db = new sqlite3.Database('./groupX.db');
 
 db.serialize(function() {
     db.run(`DROP TABLE IF EXISTS Contacts`);
@@ -19,10 +12,4 @@ db.serialize(function() {
     console.log(`Tabel sudah berhasil dibuat ke dalam database !`);
 })
 
-
-db.close((err) => {
-    if (err) {
-      return console.error('Close',err.message);
-    }
-    console.log('Close the database connection.');
-});
+db.close();
