@@ -1,0 +1,15 @@
+[
+  {
+    "groupId": 1,
+    "name": "Konoha"
+  },{
+    "groupId": 2,
+    "name": "Jounin"
+  },{
+    "groupId": 3,
+    "name": "Hokage"
+  },{
+    "groupId": 4,
+    "name": "Gakure"
+  }
+]
