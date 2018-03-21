@@ -25,6 +25,16 @@ class ContactView{
     console.log(`contact name dan phoneNumber untuk id contact ${id} berhasil dirubah...`)
   }
 
+  static displayGroup(dataGroup){
+    console.log(`NO | ID GROUP | GROUP NAME`)
+    for(let i=0; i<dataGroup.length; i++){
+      console.log(`${i+1} | ${dataGroup[i].id} | ${dataGroup[i].group_name}`)
+    }
+  }
+
+  static displayContactGroup(text){
+    console.log(text)
+  }
 }
 
 module.exports = ContactView

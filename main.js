@@ -18,8 +18,13 @@ switch (argv[2]) {
     ContactController.tampilkanKontak();break;
   case 'updateContact':
     ContactController.rubahKontak(argv[4],argv[5],argv[3]);break;
-  case 'addGroup':
-
+  case 'showGroup':
+    ContactController.tampilkanGrup();break;
+  case 'assignContactToGroup':
+    let ContactName = argv[3]
+    let GroupName = argv.slice(4,6).join(' ')
+    ContactController.tambahKontakKeGrup(ContactName,GroupName)
+    // console.log(`${ContactName} ${GroupName}`)
     break;
   default:
     HelpController.retriveHelp();

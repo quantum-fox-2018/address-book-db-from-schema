@@ -82,6 +82,60 @@ class ContactModel{
     db.close()
     cb(id)
   }
+
+  static selectGroup(cb){
+    db.serialize(function(){
+      let querySelect = `SELECT * FROM GROUPS;`
+      db.all(querySelect,(err,dataGroup) => {
+        if(err){
+          console.log('cek di query Select Group', dataGroup)
+        }
+        else {
+          cb(dataGroup)
+        }
+      })
+    })
+    db.close()
+  }
+
+  static insertContactGroups(ContactName,GroupName, cb){
+    // console.log(`${ContactName} ${GroupName}`)
+    // db.serialize(function(){
+      let querySelectContact = `SELECT id FROM CONTACTS WHERE contact_name = ?`
+      let querySelectGroup = `SELECT id FROM GROUPS WHERE group_name = ?`
+
+      db.all(querySelectContact,ContactName,(err,idContact) => {
+        if(err){
+          console.log('cek di query Select id Contacts', err)
+        }
+        else {
+
+          db.all(querySelectGroup,GroupName,function(err,idGroup){
+            if(err){
+              console.log('cek di query Select id Group', err)
+            }
+            else {
+              // console.log(`ini mudah - ${idContact[0].id}  ${idGroup[0].id}`)
+              let queryInsert = `INSERT INTO GROUP_CONTACTS VALUES(null,?,?);`
+              db.run(queryInsert,[idContact[0].id,idGroup[0].id],(err) => {
+                if(err){
+                  console.log(err)
+                }
+                else {
+                  let text = `data kontak:${ContactName} sudah berhasil ditambahkan ke group:${GroupName}`
+                  cb(text)
+                }
+              })
+            }
+          })
+        }
+
+      })
+
+
+    // })
+    db.close()
+  }
 }
 
 module.exports = ContactModel

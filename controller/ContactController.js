@@ -42,9 +42,23 @@ class ContactController{
     ContactView.displayRubahKontak(id)
   }
 
-//=========================================== TAMBAH GROUP
+//=========================================== TAMPILKAN GROUP
+  static tampilkanGrup(){
+    ContactModel.selectGroup(ContactController.tampilkanDataGrup)
+  }
 
+  static tampilkanDataGrup(dataGroup){
+    ContactView.displayGroup(dataGroup)
+  }
 
+  static tambahKontakKeGrup(ContactName,GroupName){
+    ContactModel.insertContactGroups(ContactName,GroupName,ContactController.tampilkanDataKontakKeGrup)
+    // console.log(`${ContactName} ${GroupName}`)
+  }
+
+  static tampilkanDataKontakKeGrup(text){
+    ContactView.displayContactGroup(text)
+  }
 
 }
 
