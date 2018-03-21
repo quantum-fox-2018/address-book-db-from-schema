@@ -45,8 +45,20 @@ class ContactModel{
   }
 
 
-  static updateContact(){
+  static updateContact(contact_name,phoneNumber,id,cb){
+    db.serialize(function(){
+      let queryUpdate = `UPDATE CONTACTS SET contact_name = ?,
+                                             phoneNumber = ?
+                                       WHERE id = ?;`
+      db.run(queryUpdate,[contact_name,phoneNumber,id],(err) => {
+        if(err){
+          console.log('cek di query Update Contact', err)
+        }
+      })
 
+    })
+    db.close()
+    cb(id)
   }
 }
 

@@ -5,14 +5,11 @@ const HelpController = require('./controller/HelpController');
 
 switch (argv[2]) {
   case undefined :
-    HelpController.retriveHelp();
-    break;
+    HelpController.retriveHelp();break;
   case 'setup':
-    Setup.createTable();
-    break;
+    Setup.createTable();break;
   case 'uploadData' :
-    Setup.uploadTable();
-    break;
+    Setup.uploadTable();break;
   case 'addContact':
     if(argv[3] === undefined || argv[4] === undefined){
       console.log(`name atau phone number tidak boleh kosong...!`);
@@ -22,11 +19,11 @@ switch (argv[2]) {
     }
     break;
   case 'deleteContact':
-    ContactController.hapusKontak(argv[3]);
-    break;
+    ContactController.hapusKontak(argv[3]);break;
   case 'showContact':
-    ContactController.tampilkanKontak();
-    break;
+    ContactController.tampilkanKontak();break;
+  case 'updateContact':
+    ContactController.rubahKontak(argv[4],argv[5],argv[3]);break
   default:
     HelpController.retriveHelp();
 }

@@ -7,16 +7,17 @@ class ContactView{
     console.log(`nama kontak ${contact_name}, berhasil dihapus dari kontak...`)
   }
 
-  static displayRubahKontak(){
-
-  }
-
   static displayKontak(dataContact){
-    console.log(`NO | NAMA | PHONE NUMBER`)
+    console.log(`NO | ID CONTACT | NAMA | PHONE NUMBER`)
     for(let i=0; i<dataContact.length; i++){
-      console.log(`${i+1} | ${dataContact[i].contact_name} | ${dataContact[i].phoneNumber}`)
+      console.log(`${i+1} | ${dataContact[i].id} | ${dataContact[i].contact_name} | ${dataContact[i].phoneNumber}`)
     }
   }
+
+  static displayRubahKontak(id){
+    console.log(`contact name dan phoneNumber untuk id contact ${id} berhasil dirubah...`)
+  }
+
 }
 
 module.exports = ContactView

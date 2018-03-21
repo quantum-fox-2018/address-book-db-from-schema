@@ -26,6 +26,14 @@ class ContactController{
     ContactView.displayKontak(dataContact)
   }
 
+  static rubahKontak(contact_name,phoneNumber,id){
+    ContactModel.updateContact(contact_name,phoneNumber,id,ContactController.tampilkanNotifUpdateKontak)
+  }
+
+  static tampilkanNotifUpdateKontak(id){
+    ContactView.displayRubahKontak(id)
+  }
+
 }
 
 module.exports = ContactController
