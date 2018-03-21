@@ -28,19 +28,6 @@ class Contact {
         cbResult(err);
         // console.log(err);
       }else{
-        // let queryContactShow = `SELECT * FROM Contacts
-        //                         WHERE name = "${this._name}"
-        //                         AND phone_number = "${this._phone_number}"
-        //                         AND email = "${this._email}"`
-        // db.each(queryContactShow, (err, ContactResult) => {
-        //     if(err){
-        //         console.log(err);
-        //     }else{
-        //         this._id = ContactResult.id;
-        //         // console.log(ContactResult.id);
-        //     }
-        // // console.log(queryContactShow);
-        // })
 
         cbResult(`${this._name} Has been added to Contacts`);
         db.close();
@@ -69,13 +56,29 @@ class Contact {
           cbResult(err);
       }else{
           if(ContactData.length === 0){
-              cbResult(`Id is not in Table Contacts`)
+              cbResult(`Id ${this._id} is not in Table Contacts`)
           }else{
               cbResult(ContactData);
+
           }
       }
     })
+  }
 
+  static searchId(contactId, cbResult){
+    let queryFindId = `SELECT * FROM Contacts WHERE id = ${contactId}`
+    db.all(queryFindId, (err, ContactData) =>{
+      if(err){
+          cbResult(err);
+      }else{
+          if(ContactData.length === 0){
+              cbResult(`Id ${contactId} is not in Table Contacts`)
+          }else{
+              cbResult(ContactData);
+
+          }
+      }
+    })
   }
 
   //UPDATE DATA
@@ -112,9 +115,40 @@ class Contact {
 
     });
   }
+
+  delete(cbResult){
+
+    this.showById((ContactResult) => {
+
+      if(ContactResult[0].id != undefined){
+        let queryDelContact = `DELETE FROM Contacts WHERE id = ${this._id}`
+        // cbResult(queryDelContact);
+        db.run(queryDelContact, (err) => {
+            if(err){
+              cbResult(err);
+            }else{
+              //Hapus id contact yang ada d dalem groupContacts
+              let queryDelContactInGroup = `DELETE FROM GroupContacts WHERE contact_id = ${this._id}`
+
+              db.run(queryDelContactInGroup, (err) => {
+                if(err){
+                  cbResult(err);
+                }else{
+                  cbResult(`Contact id ${this._id} has been deleted From contact..`)
+                }
+              })
+
+            }
+        })
+      }else{
+        cbResult(`Id ${this._id} is not in Table Contacts`)
+      }
+
+    })
+  }
 }
 
-// let contact = new Contact({name: "Dana", phone_number: "082120858592", email:"danny12march@gmail.com"});
+// let contact = new Contact('{"name": "Joko", "phone_number": "0823437285", "email":"joko@gmail.com"}');
 // console.log(contact);
 // contact.save();
 // contact.id;

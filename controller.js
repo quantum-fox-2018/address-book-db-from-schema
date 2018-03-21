@@ -1,8 +1,9 @@
 const View = require('./view.js');
 const Database = require('./setup');
-const Contact = require('./model/contact.js');
+const ContactController = require('./controller/contactController.js');
+const GroupController = require('./controller/groupController.js');
 
-
+//require('./model/contact.js');
 
 class Controller {
   static cekCommands(param_command){
@@ -13,40 +14,27 @@ class Controller {
         View.show(`Isi Nama Commands`);
         break;
 
+      case 'help':
+        //tampilkan semua command
+
       case 'setup':
         Database.setup();
         break;
 
-      case 'show':
-        let tableName = param_command[3];
-
-        if(tableName == 'Contacts'){
-          Contact.show((cbResult) =>{
-            View.show(cbResult);
-          });
-        }else if (tableName == 'Groups') {
-          //Group show in here later..
-        }else{
-          View.show(`${tableName} is not in Database`)
-        }
+      case 'Contacts':
+      case 'Contact':
+        ContactController.Command(param_command, (contactResult) =>{
+          View.show(contactResult);
+        });
         break;
 
-      case 'addContact':
-        let contactObj = JSON.parse(param_command[3]);
-        let contact = new Contact(contactObj);
-        contact.save((results) => {
-          View.show(results)
+      case 'Groups':
+      case 'Group':
+        GroupController.Command(param_command, (groupResult) =>{
+          View.show(groupResult);
         })
-        // View.show(contactObj.phone_number);
         break;
 
-      case 'update':
-        let contact_id = JSON.parse(param_command[3]);
-        let ContactUpdate = new Contact(contact_id);
-        ContactUpdate.update((results) =>{
-          View.show(results)
-        })
-        // View.show(ContactUpdate);
       default:
 
     }
