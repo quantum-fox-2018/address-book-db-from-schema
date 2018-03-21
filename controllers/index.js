@@ -73,6 +73,7 @@ class ControllerGroupContact {
         groupContact.save(function(reportAdd){
             console.log(reportAdd)
         })
+        // console.log(data)
     }
 }
 

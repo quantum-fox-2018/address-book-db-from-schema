@@ -32,12 +32,24 @@ class Group {
     }
 
     static delete(id, callback){
-        db.run(`DELETE FROM Groups WHERE id=$id`, { $id:id }, function(err){
-            if(err){
-                callback(err)
-            } else {
-                callback(`Data dengan ID ${id} berhasil terhapus!`)
-            }
+        db.serialize(function() {
+            
+            // hapus di group
+            db.run(`DELETE FROM Groups WHERE id=$id`, { $id:id }, function(err){
+                if(err){
+                    callback(err)
+                }
+            })
+
+            // hapus di table conjuntion
+            db.run(`DELETE FROM GroupContacts WHERE groupId=$id`, { $id:id }, function(err){
+                if(err){
+                    callback(err)
+                }
+            })
+
+            callback(`Data dengan ID ${id} berhasil terhapus!`)
+            
         })
     }
 }

@@ -52,20 +52,50 @@ class Contacts {
     }
 
     static show(callback){
-        db.all(`SELECT Contacts.first_name ||' '|| Contacts.last_name AS fullname,
-                        Contacts.email,
-                        Contacts.phone,
-                        Groups.name AS GroupName
+        db.all(`SELECT
+                    Contacts.id,
+                    Contacts.first_name||' '|| Contacts.last_name AS fullName,
+                    Contacts.email,
+                    Contacts.phone,
+                    Groups.id AS GroupID,
+                    Groups.name AS groupName
                 FROM Contacts
                 LEFT JOIN GroupContacts
-                    ON Contacts.id = GroupContacts.contactId
+                ON Contacts.id = GroupContacts.contactId
                 LEFT JOIN Groups
-                    ON GroupContacts.groupId = Groups.id
-                    ORDER BY fullname`, function(err,data){
+                ON GroupContacts.groupId = Groups.id`, function(err,data){
                         if(err) {
                             callback(err)
                         } else {
-                            callback(data)
+                            let contactMerging = data;
+                            // console.log(contactMerging)
+
+                            let arrayId = [];
+                            let newData = [];
+                            for(let i=0; i<contactMerging.length; i++){
+                                if(arrayId.indexOf(contactMerging[i].id) === -1){
+                                    arrayId.push(contactMerging[i].id)
+                                    let obj = {
+                                        id: `${contactMerging[i].id}`,
+                                        fullname : `${contactMerging[i].fullName}`,
+                                        email : `${contactMerging[i].email}`,
+                                        phone : `${contactMerging[i].phone}`
+                                    };
+                                    newData.push(obj)
+                                }
+                            }
+
+                            for(let i=0; i<newData.length; i++){
+                                let temp = [];
+                                for(let j=0; j<contactMerging.length; j++){
+                                    if(contactMerging[j].id == newData[i].id){
+                                        temp.push(contactMerging[j].groupName)
+                                    }
+                                }
+                                newData[i].group = temp
+                            }
+
+                            callback(newData)
                         }
                     })
     }
