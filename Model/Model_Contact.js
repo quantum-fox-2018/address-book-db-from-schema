@@ -45,13 +45,21 @@ class Contact {
   static delete(id, callback) {
     Contact.checkID(id, checkResult => {
       if (checkResult == true) {
-        let query = `DELETE FROM Contacts WHERE id = ?`;
-        db.run(query, [id], (err) => {
-          if (err) {
-            console.log(`${err}`);
-          } else {
-            callback('Delete data successfull!');
-          }
+        let query   = `DELETE FROM Contacts WHERE id = ?`;
+        let query2  = `DELETE FROM ContactGroups WHERE contactId = ?`;
+
+        db.serialize(function() {
+          db.run(query, [id], (err) => {
+            if (err) {
+              console.log(`${err}`);
+            }
+          });
+          db.run(query2, [id], (err) => {
+            if (err) {
+              console.log(`${err}`);
+            }
+          });
+          callback('Delete data successfull!');
         });
       } else {
         callback(`ID doesn't exist!`)

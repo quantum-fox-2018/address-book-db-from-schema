@@ -51,7 +51,12 @@ class ContactGroup {
   }
 
   static show(callback) {
-    let query = `SELECT * FROM ContactGroups`;
+    let query = `SELECT c.name, c.address, c.email, c.phone, g.name AS groupName
+      FROM ContactGroups AS cg
+      JOIN Groups AS g
+      	ON cg.groupId = g.id
+      JOIN Contacts AS c
+      	ON cg.contactId = c.id`;
     db.all(query, (err, data) => {
       if (err) {
         console.log(`${err}`);

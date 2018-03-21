@@ -3,14 +3,21 @@ const ViewContact = require('../View/View_Contact.js')
 
 class ControllerContact {
   static add(name, address, email, phone) {
-    ControllerContact.checkPhone(phone, checkPhone => {
-      if (checkPhone == true) {
-        let properties = new Contact(name, address, email, phone);
-        Contact.add(properties, data => {
-          ViewContact.addSuccess(data);
+    ControllerContact.checkEmail(email, checkEmail => {
+      if (checkEmail == true) {
+        ControllerContact.checkPhone(phone, checkPhone => {
+          if (checkPhone == true) {
+            let properties = new Contact(name, address, email, phone);
+            Contact.add(properties, data => {
+              ViewContact.addSuccess(data);
+            });
+          } else {
+            let result = `Invalid phone number!`;
+            ViewContact.addFailed(result);
+          }
         });
       } else {
-        let result = `Invalid phone number!`
+        let result = `Invalid email address!`;
         ViewContact.addFailed(result);
       }
     });
@@ -42,6 +49,12 @@ class ControllerContact {
       result = true;
     }
     callback(result);
+  }
+
+  static checkEmail(email, callback) {
+    let pattern = /\S+@\S+\.\S+/;
+    let validity = pattern.test(email);
+    callback(validity);
   }
 }
 
