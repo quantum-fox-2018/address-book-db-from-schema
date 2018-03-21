@@ -24,8 +24,8 @@ class Controller{
   static readData(inputTable,inputData) {
     Model.readData(inputTable,inputData,View.printView)
   }
-  static assignData(inputData){
-    Model.assignData(inputData,View.printView)
+  static assignData(inputTable,inputData){
+    Model.assignData(inputTable,inputData,View.printView)
   }
   static help(){
     for (let i = 0; i < Model.help().length; i++) {

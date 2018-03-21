@@ -23,7 +23,7 @@ function command(inputCommand,inputTable,inputData){
     }
   }
   else if(inputCommand==='assign'){
-    Controller.assignData(inputData)
+    Controller.assignData(inputTable,inputData)
   }
 
   else if(inputCommand==='help'){

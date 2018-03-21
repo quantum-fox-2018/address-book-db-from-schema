@@ -44,10 +44,8 @@ class ContactGroup{
     }
 
     assign(contactName,groupName,callback){
-      db.get(`select * from contacts_groups as cg
-      join contacts as c on cg.contactId=c.contactId
-      join groups as g on cg.contactId=g.groupId
-      where c.contactName=$contactName`,
+      db.get(`select * from contacts
+      where contactName=$contactName`,
         {
           $contactName : contactName,
         },
@@ -58,11 +56,10 @@ class ContactGroup{
             callback('contact not found')
           }
           else{
+
             var getContact=data.contactId
             var getNameContact=data.contactName
-            db.get(`select * from contacts_groups as cg
-            join contacts as c on cg.contactId=c.contactId
-            join groups as g on cg.contactId=g.groupId
+            db.get(`select * from groups as g
             where g.groupName=$groupName`,
             {
               $groupName : groupName,
@@ -77,18 +74,16 @@ class ContactGroup{
                   var getGroup=data.groupId
                   var getNameGroup=data.groupName
                   db.get(`select * from contacts_groups as cg
-                  join contacts as c on cg.contactId=c.contactId
-                  join groups as g on cg.contactId=g.groupId
-                  where c.contactName=$contactName and g.groupName=$groupName`
+                  where cg.contactId=$getContact and cg.groupId=$getGroup`
                   ,{
-                    $contactName : contactName,
-                    $groupName : groupName
+                    $getContact : getContact,
+                    $getGroup : getGroup
                   },(err,data)=>{
                     if(err) callback(err)
                     else
                       {
                         if(data!==undefined){
-                          callback('contact '+data.contactName+' already exist on '+ data.groupName +' group !')
+                          callback('contact '+getNameContact+' already exist on '+ getNameGroup +' group !')
                         }
                         else{
                           db.run(`insert into contacts_groups(contactId,groupId)

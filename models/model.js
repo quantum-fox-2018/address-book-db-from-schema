@@ -80,16 +80,16 @@ class Model{
     }
   }
 
-  static assignData(inputData,callback){
+  static assignData(inputTable,inputData,callback){
     let contact_group = new ContactGroup()
-    contact_group.assign(inputData[0],inputData[1],callback)
+    contact_group.assign(inputTable,inputData[0],callback)
   }
 
   static help() {
   let arrCommand = ['node main.js help', 'node main.js insert <contacts/groups> <data_content>',
-  'node todo.js update <contacts/groups> <data_content> <data_id>',
-  'node todo.js delete <data_id>', 'node todo.js show <contacts/groups>','node todo.js show <contacts/groups> <data_id>',
-  'node todo.js assign <contact_name> <group_name>']
+  'node main.js update <contacts/groups> <data_content> <data_id>',
+  'node main.js delete <data_id>', 'node main.js show <contacts/groups>','node main.js show <contacts/groups> <data_id>',
+  'node main.js assign <contact_name> <group_name>']
   return arrCommand
   }
 
