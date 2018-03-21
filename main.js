@@ -1,6 +1,5 @@
 const ControllerContact = require('./Controller/ControllerContact.js');
 const ControllerGroup = require('./Controller/ControllerGroup.js');
-const ControllerContactGroup = require('./Controller/ControllerContactGroup.js');
 
 let input = process.argv;
 let menu = input[2];
@@ -25,10 +24,9 @@ if(menu == "listContact") {
 } else if(menu == "deleteGroup") {
   ControllerGroup.deleteGroup(input[3]);
 } else if(menu == "listContactGroup") {
-  ControllerContactGroup.listContactGroup();
+  ControllerGroup.listContactGroup(input[3]);
 } else if(menu == "addContactGroup") {
-  let attributesContact = {contact_id: input[3], group_id: input[4]};
-  ControllerContactGroup.addContactGroup(attributesContact);
+  ControllerGroup.addContactToGroup(input[3], input[4]);
 } else if(menu == "deleteContactGroup") {
-  ControllerContactGroup.deleteContactGroup(input[3]);
+  ControllerGroup.deleteContactFromGroup(input[3], input[4]);
 }

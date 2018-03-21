@@ -7,8 +7,11 @@ class ControllerContact {
   }
 
   static addContact(attributesContact) {
-    let newContact = new ModelContact(attributesContact);
-    newContact.addContact(ViewContact.addContact);
+    let contact = new ModelContact(attributesContact);
+    contact.save
+    ViewContact.display(contact)
+
+    //contact.addContact(ViewContact.addContact);
   }
 
   static updateContact(id, objUpdate) {
